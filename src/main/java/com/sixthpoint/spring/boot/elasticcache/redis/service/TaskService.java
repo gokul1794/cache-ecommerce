@@ -39,7 +39,7 @@ public class TaskService {
      * An API that will call my own product result
      * @param
      */
-    @Cacheable(value = "getProducts", key="{#allProducts}", cacheManager = "cacheManager1Hour")
+    @Cacheable(value = "getProducts", key="#allProducts", cacheManager = "cacheManager1Hour")
     public List<Product> getAllProducts() throws IOException {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
@@ -58,7 +58,7 @@ public class TaskService {
     }
 
     //Get Product Categories
-    @Cacheable(value = "getProductCategories", key="{#allProductCaegories}", cacheManager = "cacheManager1Hour")
+    @Cacheable(value = "getProductCategories", key="#allProductCaegories", cacheManager = "cacheManager1Hour")
     public ArrayList<String> getAllProductCategories() throws IOException {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
@@ -76,7 +76,7 @@ public class TaskService {
         return products;
     }
 
-    @Cacheable(value = "getProductsByCategory", key="{#allProductsByCategories}", cacheManager = "cacheManager1Hour")
+    @Cacheable(value = "getProductsByCategory", key="#allProductsByCategories", cacheManager = "cacheManager1Hour")
     public List<Product> getAllProductsByCategory(String categoryName) throws IOException {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
@@ -94,7 +94,7 @@ public class TaskService {
         return products;
     }
 
-    @Cacheable(value = "getProductDetails", key="{#ProductDetails}", cacheManager = "cacheManager1Hour")
+    @Cacheable(value = "ProductDetails", key="#ProductDetails", cacheManager = "cacheManager1Hour")
     public List<Product> getProductDetails(String id) throws IOException {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
