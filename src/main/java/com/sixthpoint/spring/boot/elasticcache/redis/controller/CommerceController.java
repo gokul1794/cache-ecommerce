@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin
 @RestController
 @RequestMapping( value = "/ecommerce" )
 public class CommerceController {
