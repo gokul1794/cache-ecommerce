@@ -10,6 +10,7 @@ import com.squareup.okhttp.Response;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
 import java.util.List;
@@ -49,6 +50,62 @@ public class TaskService {
         Gson gson = new Gson();
         TypeToken<List<Product>> token = new TypeToken<List<Product>>() {};
         String results = response.body().string();
+        System.out.println(results);
+        List<Product> products = gson.fromJson(results,
+                token.getType());
+        return products;
+    }
+
+    //Get Product Categories
+    @Cacheable(value = "getProductCategories", key="{#allProductCaegories}", cacheManager = "cacheManager1Hour")
+    public List<String> getAllProductCategories() throws IOException {
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url("http://127.0.0.1:8080/getProductCategories")
+                .method("GET", null)
+                .addHeader("Content-Type", "application/json")
+                .build();
+        Response response = client.newCall(request).execute();
+        Gson gson = new Gson();
+        TypeToken<List<String>> token = new TypeToken<List<String>>() {};
+        String results = response.body().string();
+        System.out.println(results);
+        List<String> products = gson.fromJson(results,
+                token.getType());
+        return products;
+    }
+
+    @Cacheable(value = "getProductsByCategory", key="{#allProductsByCategories}", cacheManager = "cacheManager1Hour")
+    public List<Product> getAllProductsByCategory(String categoryName) throws IOException {
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url("http://127.0.0.1:8080/getProductByCategory/"+categoryName)
+                .method("GET", null)
+                .addHeader("Content-Type", "application/json")
+                .build();
+        Response response = client.newCall(request).execute();
+        Gson gson = new Gson();
+        TypeToken<List<Product>> token = new TypeToken<List<Product>>() {};
+        String results = response.body().string();
+        System.out.println(results);
+        List<Product> products = gson.fromJson(results,
+                token.getType());
+        return products;
+    }
+
+    @Cacheable(value = "getProduct", key="{#Product}", cacheManager = "cacheManager1Hour")
+    public List<Product> getProductDetails(String id) throws IOException {
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url("http://127.0.0.1:8080/getProductDetails?id="+id)
+                .method("GET", null)
+                .addHeader("Content-Type", "application/json")
+                .build();
+        Response response = client.newCall(request).execute();
+        Gson gson = new Gson();
+        TypeToken<List<Product>> token = new TypeToken<List<Product>>() {};
+        String results = response.body().string();
+        System.out.println(results);
         List<Product> products = gson.fromJson(results,
                 token.getType());
         return products;

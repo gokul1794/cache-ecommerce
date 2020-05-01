@@ -7,26 +7,42 @@ import com.sixthpoint.spring.boot.elasticcache.redis.service.dto.TaskDTO;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping( value = "/commerce" )
+@RequestMapping( value = "/ecommerce" )
 public class CommerceController {
     @Autowired
     private TaskService taskService;
 
-    @ApiOperation(
-            value = "Perform the long running task")
     @RequestMapping(value = "/getAllProducts", method = RequestMethod.GET)
     public List<Product> GetProducts() throws IOException {
         List<Product> products = taskService.getAllProducts();
+        return products;
+    }
+
+
+    @RequestMapping(value = "/getProductCategories", method = RequestMethod.GET)
+    public List<String> GetProductCategories() throws IOException {
+        List<String> products = taskService.getAllProductCategories();
+        return products;
+    }
+
+
+    @RequestMapping(value = "/getProductByCategory/{category}", method = RequestMethod.GET)
+    public List<Product> GetProductsByCategory(@PathVariable String category) throws IOException {
+        List<Product> products = taskService.getAllProductsByCategory(category);
+        return products;
+    }
+
+
+    @RequestMapping(value = "/getProductDetails", method = RequestMethod.GET)
+    public List<Product> GetProductDetails(@RequestParam("id") String id) throws IOException {
+        List<Product> products = taskService.getProductDetails(id);
         return products;
     }
 }
