@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -58,7 +59,7 @@ public class TaskService {
 
     //Get Product Categories
     @Cacheable(value = "getProductCategories", key="{#allProductCaegories}", cacheManager = "cacheManager1Hour")
-    public List<String> getAllProductCategories() throws IOException {
+    public ArrayList<String> getAllProductCategories() throws IOException {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
                 .url("http://127.0.0.1:8080/getProductCategories")
@@ -70,7 +71,7 @@ public class TaskService {
         TypeToken<List<String>> token = new TypeToken<List<String>>() {};
         String results = response.body().string();
         System.out.println(results);
-        List<String> products = gson.fromJson(results,
+        ArrayList<String> products = gson.fromJson(results,
                 token.getType());
         return products;
     }
@@ -93,7 +94,7 @@ public class TaskService {
         return products;
     }
 
-    @Cacheable(value = "getProduct", key="{#Product}", cacheManager = "cacheManager1Hour")
+    @Cacheable(value = "getProductDetails", key="{#ProductDetails}", cacheManager = "cacheManager1Hour")
     public List<Product> getProductDetails(String id) throws IOException {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
